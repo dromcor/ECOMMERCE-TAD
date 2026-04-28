@@ -1,46 +1,119 @@
 @extends('layouts.app')
 
+@section('title', 'Carrito | Birra Market')
+
 @section('content')
-<h2>Tu carrito</h2>
-@if(session('error'))
-  <div class="alert alert-danger">{{ session('error') }}</div>
-@endif
-@if(session('success'))
-  <div class="alert alert-success">{{ session('success') }}</div>
-@endif
+@php
+    $cart = \App\Models\Cart::where('usuario_id', auth()->id())
+        ->with('lines.product')
+        ->first();
 
-@auth
-  @php $cart = \App\Models\Cart::where('usuario_id', auth()->id())->with('lines.product')->first(); @endphp
-  @if(! $cart || $cart->lines->isEmpty())
-    <p>El carrito está vacío.</p>
-  @else
-    <table class="table">
-      <thead><tr><th>Producto</th><th>Precio</th><th>Cantidad</th><th>Total</th></tr></thead>
-      <tbody>
-        @php $sum = 0; @endphp
-        @foreach($cart->lines as $line)
-          <tr>
-            <td>{{ $line->product->nombre }}</td>
-            <td>{{ number_format($line->price_snapshot_cents/100, 2) }} €</td>
-            <td>{{ $line->cantidad }}</td>
-            <td>{{ number_format(($line->price_snapshot_cents * $line->cantidad)/100, 2) }} €</td>
-          </tr>
-          @php $sum += $line->price_snapshot_cents * $line->cantidad; @endphp
-        @endforeach
-      </tbody>
-    </table>
+    $total = 0;
+@endphp
 
-    <p class="lead">Total: {{ number_format($sum/100, 2) }} €</p>
+<section class="admin-section">
+    <div class="container">
+        <div class="admin-header-row">
+            <div>
+                <span>Compra online</span>
+                <h1>Tu carrito</h1>
+                <p>Revisa las cervezas añadidas antes de confirmar el pedido.</p>
+            </div>
 
-    <form method="POST" action="{{ route('checkout.create') }}">
-      @csrf
-      <button class="btn btn-primary">Proceder a pagar</button>
-    </form>
-  @endif
-@endauth
+            <a href="{{ route('products.index') }}" class="primary-button">Seguir comprando</a>
+        </div>
 
-@guest
-  <p>Debes <a href="{{ route('login') }}">iniciar sesión</a> para ver tu carrito y proceder al pago.</p>
-@endguest
+        @if(session('success'))
+            <div class="alert success-alert">{{ session('success') }}</div>
+        @endif
 
+        @if(session('error'))
+            <div class="alert error-alert">{{ session('error') }}</div>
+        @endif
+
+        @if(!$cart || $cart->lines->isEmpty())
+            <div class="empty-box">
+                <h3>El carrito está vacío</h3>
+                <p>Añade alguna cerveza desde el catálogo para empezar tu compra.</p>
+            </div>
+        @else
+            <div class="table-box cart-table-box">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Precio</th>
+                            <th>Cantidad</th>
+                            <th>Total</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach($cart->lines as $line)
+                            @php
+                                $lineTotal = $line->price_snapshot_cents * $line->cantidad;
+                                $total = $total + $lineTotal;
+                            @endphp
+
+                            <tr>
+                                <td>
+                                    <strong>{{ $line->product->nombre }}</strong>
+                                    <br>
+                                    <span class="table-muted">
+                                        {{ \Illuminate\Support\Str::limit($line->product->descripcion, 70) }}
+                                    </span>
+                                </td>
+
+                                <td>
+                                    {{ number_format($line->price_snapshot_cents / 100, 2, ',', '.') }} €
+                                </td>
+
+                                <td>
+                                    <div class="quantity-controls">
+                                        <form action="{{ route('cart.decrease', $line) }}" method="POST">
+                                            @csrf
+                                            <button type="submit" class="quantity-button">-</button>
+                                        </form>
+
+                                        <span>{{ $line->cantidad }}</span>
+
+                                        <form action="{{ route('cart.increase', $line) }}" method="POST">
+                                            @csrf
+                                            <button type="submit" class="quantity-button">+</button>
+                                        </form>
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <strong>{{ number_format($lineTotal / 100, 2, ',', '.') }} €</strong>
+                                </td>
+
+                                <td>
+                                    <form action="{{ route('cart.remove', $line) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="danger-button">Eliminar</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="cart-summary">
+                <div>
+                    <span>Total del carrito</span>
+                    <strong>{{ number_format($total / 100, 2, ',', '.') }} €</strong>
+                </div>
+
+                <form action="{{ route('checkout.create') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="auth-button">Proceder a pagar</button>
+                </form>
+            </div>
+        @endif
+    </div>
+</section>
 @endsection

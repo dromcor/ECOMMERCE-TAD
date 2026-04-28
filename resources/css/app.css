@@ -832,3 +832,459 @@ button {
         padding: 30px 20px;
     }
 }
+
+
+
+.admin-section {
+    padding: 55px 0 75px;
+    background: #fff7e8;
+    min-height: calc(100vh - 150px);
+}
+
+.admin-header {
+    margin-bottom: 30px;
+}
+
+.admin-header span,
+.admin-header-row span {
+    color: #d99022;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.85rem;
+}
+
+.admin-header h1,
+.admin-header-row h1 {
+    color: #2b170c;
+    margin: 8px 0;
+    font-size: 2.2rem;
+}
+
+.admin-header p,
+.admin-header-row p {
+    color: #74675d;
+    margin: 0;
+}
+
+.admin-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+}
+
+.admin-option-card {
+    background: white;
+    border: 1px solid #ead9bd;
+    border-radius: 22px;
+    padding: 28px;
+    box-shadow: 0 10px 26px rgba(73, 43, 18, 0.08);
+    transition: transform 0.16s ease, box-shadow 0.16s ease;
+}
+
+.admin-option-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 34px rgba(73, 43, 18, 0.14);
+}
+
+.admin-option-icon {
+    font-size: 3rem;
+    margin-bottom: 10px;
+}
+
+.admin-option-card h2 {
+    color: #2b170c;
+    margin: 0 0 8px;
+}
+
+.admin-option-card p {
+    color: #74675d;
+    margin: 0;
+    line-height: 1.5;
+}
+
+.admin-header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 26px;
+}
+
+.table-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.table-actions form {
+    margin: 0;
+}
+
+.danger-button {
+    border: none;
+    background: #b42318;
+    color: white;
+    border-radius: 999px;
+    padding: 8px 12px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.admin-form-card {
+    width: min(560px, 100%);
+    margin: 0 auto;
+    background: white;
+    border: 1px solid #ead9bd;
+    border-radius: 24px;
+    padding: 32px;
+    box-shadow: 0 18px 45px rgba(43, 23, 12, 0.12);
+}
+
+.admin-form-card h1 {
+    margin: 0 0 8px;
+    color: #2b170c;
+}
+
+.admin-form-card p {
+    margin: 0 0 24px;
+    color: #74675d;
+}
+
+.admin-back {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.admin-back a {
+    color: #8a4e12;
+    font-weight: 800;
+}
+
+@media (max-width: 760px) {
+    .admin-options {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-header-row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+.checkbox-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px 14px;
+    background: #fffaf1;
+    border: 1px solid #ead9bd;
+    border-radius: 14px;
+    padding: 14px;
+}
+
+.checkbox-grid label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #2b170c;
+    font-weight: 700;
+}
+
+.checkbox-grid input {
+    width: auto;
+}
+
+.table-muted {
+    color: #74675d;
+    font-size: 0.9rem;
+}
+
+.status-ok {
+    display: inline-block;
+    background: #e9f8ed;
+    color: #277a3e;
+    border: 1px solid #bfe8ca;
+    border-radius: 999px;
+    padding: 5px 10px;
+    font-weight: 800;
+    font-size: 0.82rem;
+}
+
+.status-no {
+    display: inline-block;
+    background: #fff0ee;
+    color: #b42318;
+    border: 1px solid #f3c0ba;
+    border-radius: 999px;
+    padding: 5px 10px;
+    font-weight: 800;
+    font-size: 0.82rem;
+}
+
+
+.cart-table-box {
+    margin-top: 20px;
+}
+
+.quantity-controls {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    background: #fffaf1;
+    border: 1px solid #ead9bd;
+    border-radius: 999px;
+    padding: 5px 8px;
+}
+
+.quantity-controls form {
+    margin: 0;
+}
+
+.quantity-controls span {
+    min-width: 28px;
+    text-align: center;
+    font-weight: 900;
+    color: #2b170c;
+}
+
+.quantity-button {
+    width: 30px;
+    height: 30px;
+    border: none;
+    border-radius: 999px;
+    background: #d99022;
+    color: #2b170c;
+    font-size: 1.15rem;
+    font-weight: 900;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.quantity-button:hover {
+    filter: brightness(0.95);
+}
+
+.cart-summary {
+    margin-top: 24px;
+    background: white;
+    border: 1px solid #ead9bd;
+    border-radius: 22px;
+    padding: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    box-shadow: 0 10px 26px rgba(73, 43, 18, 0.08);
+}
+
+.cart-summary span {
+    display: block;
+    color: #74675d;
+    font-weight: 800;
+    margin-bottom: 6px;
+}
+
+.cart-summary strong {
+    font-size: 1.8rem;
+    color: #2b170c;
+}
+
+.cart-summary form {
+    margin: 0;
+}
+
+@media (max-width: 760px) {
+    .cart-summary {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+
+.admin-header-row .primary-button,
+.admin-form-card .auth-button {
+    box-shadow: 0 8px 18px rgba(217, 144, 34, 0.24);
+}
+
+.admin-header-row .primary-button:hover,
+.admin-form-card .auth-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 12px 24px rgba(217, 144, 34, 0.30);
+}
+
+.table-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.table-actions .small-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff1cf;
+    color: #6b3a10;
+    border: 1px solid #e7c176;
+    border-radius: 999px;
+    padding: 8px 13px;
+    font-weight: 900;
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+
+.table-actions .small-link:hover {
+    background: #d99022;
+    color: #2b170c;
+}
+
+.danger-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: #b42318;
+    color: white;
+    border-radius: 999px;
+    padding: 8px 13px;
+    font-weight: 900;
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+
+.danger-button:hover {
+    background: #8f1d14;
+}
+
+.small-button {
+    box-shadow: 0 6px 14px rgba(217, 144, 34, 0.20);
+}
+
+.small-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 9px 18px rgba(217, 144, 34, 0.28);
+}
+
+.admin-form-card {
+    border-top: 6px solid #d99022;
+}
+
+.admin-form-card h1 {
+    font-size: 2rem;
+}
+
+.admin-form-card .auth-form {
+    gap: 19px;
+}
+
+.admin-form-card .form-group label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.admin-form-card .form-group input,
+.admin-form-card .form-group textarea,
+.admin-form-card .form-group select {
+    border: 1px solid #dfc497;
+    background: #fffaf1;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.admin-form-card .form-group textarea {
+    resize: vertical;
+    min-height: 105px;
+}
+
+.admin-form-card .form-group input::placeholder,
+.admin-form-card .form-group textarea::placeholder {
+    color: #a8947f;
+}
+
+.admin-form-card .form-group input:focus,
+.admin-form-card .form-group textarea:focus,
+.admin-form-card .form-group select:focus {
+    border-color: #d99022;
+    background: white;
+    box-shadow: 0 0 0 4px rgba(217, 144, 34, 0.18);
+}
+
+.checkbox-grid {
+    background: #fffaf1;
+    border: 1px solid #dfc497;
+    border-radius: 16px;
+    padding: 15px;
+}
+
+.checkbox-grid label {
+    background: white;
+    border: 1px solid #ead9bd;
+    border-radius: 12px;
+    padding: 10px 12px;
+    transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.checkbox-grid label:hover {
+    background: #fff1cf;
+    border-color: #e7c176;
+}
+
+.checkbox-label {
+    background: #fffaf1;
+    border: 1px solid #ead9bd;
+    border-radius: 14px;
+    padding: 12px 14px;
+}
+
+.admin-back {
+    margin-top: 22px;
+}
+
+.admin-back a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff1cf;
+    border: 1px solid #e7c176;
+    color: #6b3a10;
+    border-radius: 999px;
+    padding: 10px 15px;
+    font-weight: 900;
+}
+
+.admin-back a:hover {
+    background: #d99022;
+    color: #2b170c;
+}
+
+.table-box {
+    border-radius: 20px;
+}
+
+.table-box table tbody tr:hover {
+    background: #fffaf1;
+}
+
+.table-box th {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.status-ok,
+.status-no {
+    min-width: 42px;
+    text-align: center;
+}
+
+@media (max-width: 620px) {
+    .checkbox-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .table-actions {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
