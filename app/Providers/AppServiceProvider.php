@@ -33,12 +33,17 @@ class AppServiceProvider extends ServiceProvider
 
         // Fortify setup: use simple create and authenticate callbacks
         if (class_exists(\Laravel\Fortify\Fortify::class)) {
-            \Laravel\Fortify\Fortify::createUsersUsing(function (\Illuminate\Http\Request $request) {
-                return \App\Models\User::create([
-                    'name' => $request->name,
-                    'email' => $request->email,
-                    'password' => \Illuminate\Support\Facades\Hash::make($request->password),
-                ]);
+            \Laravel\Fortify\Fortify::createUsersUsing(function () {
+                return new class implements \Laravel\Fortify\Contracts\CreatesNewUsers {
+                    public function create(array $input) {
+                        // Validate if needed, or assume validation is done by Fortify/custom requests
+                        return \App\Models\User::create([
+                            'name' => $input['name'],
+                            'email' => $input['email'],
+                            'password' => \Illuminate\Support\Facades\Hash::make($input['password']),
+                        ]);
+                    }
+                };
             });
 
             \Laravel\Fortify\Fortify::authenticateUsing(function (\Illuminate\Http\Request $request) {

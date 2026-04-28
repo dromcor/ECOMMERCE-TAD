@@ -2,6 +2,7 @@
 
 return [
     'guard' => 'web',
+    'home' => '/productos',
     'passwords' => 'users',
     'username' => 'email',
     'limiters' => [
