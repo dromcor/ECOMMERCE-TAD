@@ -101,6 +101,10 @@ class CheckoutController extends Controller
             $order->precio_total_cents = $total;
             $order->save();
 
+            // Clear the cart
+            \App\Models\CartLine::where('cart_id', $cart->id)->delete();
+            $cart->delete();
+
             // Create payment provisional
             DB::table('payments')->insert([
                 'pedido_id' => $order->id,
