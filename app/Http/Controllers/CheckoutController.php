@@ -172,6 +172,40 @@ class CheckoutController extends Controller
     public function success(Request $request)
     {
         $sessionId = $request->query('session_id');
+
+        // Fallback for local testing without webhooks:
+        // If we have a session ID, let's double check with Stripe to mark the order as paid immediately.
+        if ($sessionId && $sessionId !== 'local_simulated') {
+            try {
+                $stripeSecret = config('services.stripe.secret');
+                if ($stripeSecret) {
+                    $stripe = new StripeClient($stripeSecret);
+                    $session = $stripe->checkout->sessions->retrieve($sessionId);
+
+                    if ($session && $session->payment_status === 'paid' && $session->client_reference_id) {
+                        $orderId = (int) $session->client_reference_id;
+                        
+                        $order = \App\Models\Order::find($orderId);
+                        if ($order && $order->estado !== 'paid') {
+                            DB::table('orders')->where('id', $orderId)->update([
+                                'estado' => 'paid',
+                                'status_id' => DB::table('order_statuses')->where('nombre', 'paid')->value('id'),
+                                'updated_at' => now(),
+                            ]);
+
+                            DB::table('payments')->where('pedido_id', $orderId)->update([
+                                'status' => 'succeeded',
+                                'provider_ref' => $session->id,
+                                'updated_at' => now(),
+                            ]);
+                        }
+                    }
+                }
+            } catch (\Exception $e) {
+                Log::error('Local fallback check for Stripe session failed: ' . $e->getMessage());
+            }
+        }
+
         return view('checkout.success', compact('sessionId'));
     }
 
