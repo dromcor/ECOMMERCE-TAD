@@ -106,53 +106,82 @@
                             @else
                                 <div class="product-placeholder">🍺</div>
                             @endif
-                        </div>
-
-                        <div class="product-info">
-                            <div class="product-top">
-                                <h3>{{ $nombre }}</h3>
-
-                                @if(isset($product->stock))
-                                    <span class="stock-label">Stock: {{ $product->stock }}</span>
-                                @endif
-                            </div>
 
                             @if($product->categories && $product->categories->count() > 0)
-                                <div class="beer-tags">
+                                <div class="product-tags">
                                     @foreach($product->categories as $category)
-                                        <span>{{ $category->nombre }}</span>
+                                        <span class="tag">{{ $category->nombre }}</span>
                                     @endforeach
                                 </div>
                             @endif
 
-                            <p>
+                            @if(Route::has('favorite.toggle'))
+                                @php
+                                    $isFavorite = auth()->check() && auth()->user()->favorites->contains($product->id);
+                                @endphp
+                                <form action="{{ route('favorite.toggle') }}" method="POST" class="favorite-form">
+                                    @csrf
+                                    <input type="hidden" name="producto_id" value="{{ $product->id }}">
+                                    <button type="submit" class="favorite-btn {{ $isFavorite ? 'active' : '' }}" title="Añadir a favoritos">
+                                        <svg viewBox="0 0 24 24">
+                                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                                        </svg>
+                                    </button>
+                                </form>
+                            @endif
+                        </div>
+
+                        <div class="product-content">
+                            <h3 class="product-title">
+                                @if(Route::has('products.show'))
+                                    <a href="{{ route('products.show', $product) }}">{{ $nombre }}</a>
+                                @else
+                                    {{ $nombre }}
+                                @endif
+                            </h3>
+
+                            @if(isset($product->stock))
+                                @php
+                                    $stockClass = $product->stock > 20 ? 'stock-high' : ($product->stock > 0 ? 'stock-low' : 'stock-out');
+                                    $stockText = $product->stock > 20 ? 'En stock' : ($product->stock > 0 ? 'Últimas unidades' : 'Agotado');
+                                @endphp
+                                <span class="product-stock {{ $stockClass }}">{{ $stockText }} ({{ $product->stock }})</span>
+                            @endif
+
+                            <p class="product-desc">
                                 {{ \Illuminate\Support\Str::limit($descripcion, 105) }}
                             </p>
 
-                            <div class="product-bottom">
-                                <strong>
-                                    @if($precio !== null)
-                                        {{ number_format($precio / 100, 2, ',', '.') }} €
-                                    @elseif(isset($product->precio))
-                                        {{ number_format($product->precio, 2, ',', '.') }} €
-                                    @else
-                                        Consultar
-                                    @endif
-                                </strong>
-
-                                <div class="product-actions">
+                            <div class="product-footer">
+                                <div class="price-container">
+                                    <span class="product-price">
+                                        @if($precio !== null)
+                                            {{ number_format($precio / 100, 2, ',', '.') }} €
+                                        @elseif(isset($product->precio))
+                                            {{ number_format($product->precio, 2, ',', '.') }} €
+                                        @else
+                                            Consultar
+                                        @endif
+                                    </span>
                                     @if(Route::has('products.show'))
-                                        <a href="{{ route('products.show', $product) }}" class="small-link">
-                                            Ver detalle
-                                        </a>
+                                        <a href="{{ route('products.show', $product) }}" class="detail-link">Ver detalle</a>
                                     @endif
+                                </div>
 
+                                <div class="action-container">
                                     @if(Route::has('cart.add'))
-                                        <form action="{{ route('cart.add') }}" method="POST">
+                                        <form action="{{ route('cart.add') }}" method="POST" class="add-to-cart-form">
                                             @csrf
                                             <input type="hidden" name="producto_id" value="{{ $product->id }}">
                                             <input type="hidden" name="cantidad" value="1">
-                                            <button type="submit" class="small-button">Añadir</button>
+                                            <button type="submit" class="primary-button add-cart-btn" {{ (isset($product->stock) && $product->stock <= 0) ? 'disabled' : '' }}>
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <circle cx="9" cy="21" r="1"></circle>
+                                                    <circle cx="20" cy="21" r="1"></circle>
+                                                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                                                </svg>
+                                                Añadir
+                                            </button>
                                         </form>
                                     @endif
                                 </div>

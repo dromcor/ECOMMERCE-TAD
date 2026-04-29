@@ -438,9 +438,16 @@ button {
 
 .product-image {
     height: 260px;
-    background: #f8f8f8;
+    background: radial-gradient(circle, #ffffff 0%, #f0f0f0 100%);
     position: relative;
     overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.product-placeholder {
+    font-size: 5rem;
 }
 
 .product-image img {
@@ -494,19 +501,35 @@ button {
 
 .product-title {
     font-size: 1.4rem;
-    margin: 0 0 10px;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    margin: 0 0 8px;
     color: var(--dark);
+    line-height: 1.2;
 }
 
 .product-title a:hover {
     color: var(--gold-dark);
 }
 
+.product-stock {
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-bottom: 12px;
+}
+
+.stock-high { background: #e9f8ed; color: #277a3e; }
+.stock-low { background: #fff1cf; color: #d99022; }
+.stock-out { background: #fff0ee; color: #b42318; }
+
 .product-desc {
     color: var(--text-muted);
     font-size: 0.95rem;
-    line-height: 1.6;
-    margin: 0 0 24px;
+    line-height: 1.5;
+    margin: 0 0 20px;
     flex-grow: 1;
 }
 
@@ -515,56 +538,92 @@ button {
     align-items: center;
     justify-content: space-between;
     margin-top: auto;
-    padding-top: 20px;
+    padding-top: 16px;
     border-top: 1px solid var(--border);
 }
 
+.price-container {
+    display: flex;
+    flex-direction: column;
+}
+
 .product-price {
-    font-size: 1.4rem;
-    font-weight: 700;
+    font-size: 1.5rem;
+    font-weight: 800;
     color: var(--dark);
+    line-height: 1;
+    margin-bottom: 4px;
 }
 
-.product-stock {
+.detail-link {
     font-size: 0.85rem;
-    color: var(--success);
-    font-weight: 500;
+    color: var(--gold-dark);
+    font-weight: 600;
 }
 
-.product-stock.low {
-    color: var(--danger);
+.detail-link:hover {
+    text-decoration: underline;
 }
 
-.add-to-cart-form button {
-    background: var(--gold);
-    color: var(--dark);
+.add-cart-btn {
+    padding: 10px 16px;
+    font-size: 0.95rem;
+    display: inline-flex;
+    gap: 6px;
+}
+
+.add-cart-btn svg {
+    width: 18px;
+    height: 18px;
+}
+
+.add-cart-btn:disabled {
+    background: #ccc;
+    color: #666;
+    cursor: not-allowed;
+    box-shadow: none;
     border: none;
-    width: 44px;
-    height: 44px;
+}
+
+.favorite-form {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    z-index: 10;
+    margin: 0;
+}
+
+.favorite-btn {
+    background: white;
+    border: 1px solid var(--border);
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    box-shadow: 0 4px 10px rgba(212, 175, 55, 0.3);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    color: #ccc;
+    transition: all 0.3s ease;
 }
 
-.add-to-cart-form button svg {
-    width: 20px;
-    height: 20px;
-}
-
-.add-to-cart-form button:hover:not(:disabled) {
-    background: var(--dark);
-    color: var(--gold);
+.favorite-btn:hover {
     transform: scale(1.1);
+    color: var(--danger);
+    border-color: var(--danger);
 }
 
-.add-to-cart-form button:disabled {
-    background: #ccc;
-    color: #888;
-    cursor: not-allowed;
-    box-shadow: none;
+.favorite-btn.active {
+    color: var(--danger);
+    border-color: var(--danger);
+    background: #fff0ee;
+}
+
+.favorite-btn svg {
+    width: 22px;
+    height: 22px;
+    fill: currentColor;
 }
 
 .out-of-stock {
